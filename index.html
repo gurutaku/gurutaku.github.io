@@ -4,68 +4,509 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gurutaku</title>
+
+  <title>Gurutaku — Make Learning Fun</title>
+  <meta name="description" content="Gurutaku makes learning fun by turning educational content into engaging games and interactive experiences for people of all ages.">
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      color: #222;
-    }
-
-    .container {
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 1.2rem;
-      color: #666;
-      margin-bottom: 30px;
-    }
-
-    .games {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      flex-wrap: wrap;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: #263238;
+      background: #fff;
+      line-height: 1.6;
     }
 
     a {
-      display: inline-block;
-      padding: 14px 24px;
-      background: #222;
-      color: white;
+      color: inherit;
       text-decoration: none;
-      border-radius: 8px;
-      font-size: 1rem;
     }
 
-    a:hover {
-      background: #444;
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid #eee;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #546e7a;
+    }
+
+    .nav-links a:hover {
+      color: #ff7043;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #fff8e1 0%, #e8f5e9 50%, #e3f2fd 100%);
+      padding: 90px 24px 100px;
+      text-align: center;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.35;
+    }
+
+    .hero::before {
+      width: 220px;
+      height: 220px;
+      background: #ffcc80;
+      top: -90px;
+      left: -60px;
+    }
+
+    .hero::after {
+      width: 280px;
+      height: 280px;
+      background: #90caf9;
+      bottom: -150px;
+      right: -80px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 16px;
+      border-radius: 30px;
+      background: #ffffff;
+      color: #ef6c00;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      line-height: 1;
+      letter-spacing: -3px;
+      font-weight: 900;
+    }
+
+    .hero h1 span {
+      color: #ff7043;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1.25rem, 3vw, 1.7rem);
+      font-weight: 600;
+      margin: 24px auto 15px;
+      max-width: 650px;
+    }
+
+    .hero-description {
+      max-width: 650px;
+      margin: 0 auto 35px;
+      color: #546e7a;
+      font-size: 1.1rem;
+    }
+
+    .hero-button {
+      display: inline-block;
+      padding: 15px 28px;
+      border-radius: 12px;
+      background: #ff7043;
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 6px 0 #d84315;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .hero-button:hover {
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 #d84315;
+    }
+
+    /* Mission */
+    .section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 85px 24px;
+    }
+
+    .section-heading {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 50px;
+    }
+
+    .section-heading h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+
+    .section-heading p {
+      color: #607d8b;
+      font-size: 1.1rem;
+    }
+
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .mission-card {
+      padding: 32px 28px;
+      border-radius: 18px;
+      background: #fafafa;
+      border: 1px solid #eeeeee;
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+
+    .mission-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+    }
+
+    .mission-card p {
+      margin: 0;
+      color: #607d8b;
+    }
+
+    /* Games */
+    .games-section {
+      background: #f8fafc;
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .game-card {
+      position: relative;
+      overflow: hidden;
+      padding: 32px;
+      border-radius: 20px;
+      background: white;
+      border: 1px solid #e8e8e8;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    .game-emoji {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    .game-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+    }
+
+    .game-card p {
+      color: #607d8b;
+      margin: 0 0 22px;
+    }
+
+    .game-link {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 9px;
+      background: #263238;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .game-link:hover {
+      background: #ff7043;
+    }
+
+    /* Philosophy */
+    .philosophy {
+      background: #263238;
+      color: white;
+      text-align: center;
+    }
+
+    .philosophy-inner {
+      max-width: 750px;
+      margin: auto;
+      padding: 90px 24px;
+    }
+
+    .philosophy h2 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      margin: 0 0 20px;
+    }
+
+    .philosophy p {
+      color: #cfd8dc;
+      font-size: 1.15rem;
+      margin: 0;
+    }
+
+    .highlight {
+      color: #ffab91;
+      font-weight: 800;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 35px 24px;
+      color: #78909c;
+      font-size: 0.9rem;
+      background: #fafafa;
+    }
+
+    footer strong {
+      color: #455a64;
+    }
+
+    /* Mobile */
+    @media (max-width: 700px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 70px 20px 80px;
+      }
+
+      .mission-grid,
+      .games {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 65px 20px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Gurutaku</h1>
-    <p>Fun games and learning activities for everyone.</p>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <span>🎮</span> Gurutaku
+      </a>
+
+      <div class="nav-links">
+        <a href="#mission">Our Mission</a>
+        <a href="#games">Games</a>
+        <a href="#philosophy">Why Gurutaku?</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-content">
+
+      <div class="eyebrow">🎓 Learning doesn't have to feel like work</div>
+
+      <h1>Learn.<br><span>Play.</span> Grow.</h1>
+
+      <div class="hero-tagline">
+        We make learning fun.
+      </div>
+
+      <p class="hero-description">
+        Gurutaku turns educational content into games and interactive
+        experiences that make learning engaging, rewarding, and enjoyable —
+        for people of all ages.
+      </p>
+
+      <a href="#games" class="hero-button">
+        Explore Our Games 🚀
+      </a>
+
+    </div>
+  </header>
+
+  <!-- Mission -->
+  <section class="section" id="mission">
+
+    <div class="section-heading">
+      <h2>Our Mission</h2>
+      <p>
+        We believe curiosity is something worth nurturing at every age.
+        Learning should be something you want to do, not something you have to do.
+      </p>
+    </div>
+
+    <div class="mission-grid">
+
+      <div class="mission-card">
+        <div class="icon">🎮</div>
+        <h3>Gamify Learning</h3>
+        <p>
+          We transform educational concepts into games, challenges,
+          puzzles, and interactive experiences.
+        </p>
+      </div>
+
+      <div class="mission-card">
+        <div class="icon">🧠</div>
+        <h3>Make It Stick</h3>
+        <p>
+          Play encourages practice, experimentation, problem solving,
+          and learning through discovery.
+        </p>
+      </div>
+
+      <div class="mission-card">
+        <div class="icon">🌎</div>
+        <h3>For Everyone</h3>
+        <p>
+          From kids learning the basics to adults exploring new skills,
+          there's always something new to discover.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Games -->
+  <section class="section games-section" id="games">
+
+    <div class="section-heading">
+      <h2>Play & Learn</h2>
+      <p>
+        Check out our growing collection of educational games.
+        More adventures are on the way!
+      </p>
+    </div>
 
     <div class="games">
-      <a href="/coolgames/">Cool Games</a>
-      <a href="/gr4-math-game/">Grade 4 Math Game</a>
+
+      <div class="game-card">
+        <div class="game-emoji">🎲</div>
+
+        <h3>Cool Games</h3>
+
+        <p>
+          A collection of fun and engaging games designed to challenge
+          your brain while keeping you entertained.
+        </p>
+
+        <a href="/coolgames/" class="game-link">
+          Play Now →
+        </a>
+      </div>
+
+      <div class="game-card">
+        <div class="game-emoji">➗</div>
+
+        <h3>Grade 4 Math Game</h3>
+
+        <p>
+          Practice math skills through games and challenges designed
+          to make Grade 4 mathematics more enjoyable.
+        </p>
+
+        <a href="/gr4-math-game/" class="game-link">
+          Play Now →
+        </a>
+      </div>
+
     </div>
-  </div>
+
+  </section>
+
+  <!-- Philosophy -->
+  <section class="philosophy" id="philosophy">
+
+    <div class="philosophy-inner">
+
+      <h2>
+        What if learning felt more like
+        <span class="highlight">playing?</span>
+      </h2>
+
+      <p>
+        At Gurutaku, we're building a world where education and play
+        go hand in hand. Our goal is simple:
+        <span class="highlight">make learning something people love to do.</span>
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <strong>🎮 Gurutaku</strong> — Make Learning Fun.
+    <br>
+    © 2026 Gurutaku. All rights reserved.
+  </footer>
+
 </body>
 </html>
 ```
